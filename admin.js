@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 // const mongoose = require("mongoose");
 const port = 3000
-const Admin = require("./db/admindb")
+const Admin = require("./db/adminDB")
 
 app.set('view engine', 'ejs');
 
