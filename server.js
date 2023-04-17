@@ -15,10 +15,12 @@ app.set('view engine', 'ejs');
 
 // app.use('/user', userRouter);
 // app.use('/admin', adminRouter);
-app.use(cookieParser()); // add this line
+app.use(cookieParser());
+app.use(session());
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/"));
+
 
 app.get('/', function(req, res) {
   res.sendFile(__dirname + "/views/index.html")
@@ -36,8 +38,8 @@ app.post('/login', async (req, res) => {
   const { email, password } = req.body;
     try {
       const user = await User.findOne({ email });
-        if (!user) {
-          return res.status(400).json({ message: 'Email Not Found' });
+      if (!user) {
+         return res.status(400).json({ message: 'Email Not Found' });
           // res.render('\page-login',{message: 'Email Not Found'})
       }
       const isMatch = await bcrypt.compare(password, user.password);
@@ -46,8 +48,10 @@ app.post('/login', async (req, res) => {
         // res.render('\page-login',{message: 'Invalid password'})
 
       }
-      const token = jwt.sign({ userId: user.userId }, 'mysecretkey');
-      return res.json({ token })
+      req.session.userID = user.userID;
+      req.session.userType = user.userType;
+      return res.json({ message: 'sign in successfully' })
+      // res.render('\dashboard')
     } 
     catch (error) {
       console.error(error);
@@ -57,23 +61,12 @@ app.post('/login', async (req, res) => {
 
 
   function isAuthenticated(req, res, next) {
-    const token = req.cookies.jwt; 
-    if (token) {
-      jwt.verify(token, 'mysecretkey', function(err, decoded) {
-        if (err) {
-          return res.redirect('/login');
-        } else {
-          if (decoded && decoded.userType === 1) {
-            req.user = decoded;
-            return next();
-        } else {
-          return res.status(403).json({ error: 'Forbidden' });
-        }
-      }
-    });
-  } else {
-    return res.redirect('/login');
-  }
+    if(req.session.userID){
+      return next();
+    }
+    else {
+      res.redirect('\login');
+    }
 }
   
 app.listen(port, () => {
