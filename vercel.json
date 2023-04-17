@@ -1,7 +1,7 @@
 {
     "builds": [
       {
-         "src": "index.js",
+         "src": "./server.js",
          "use": "@vercel/node" }
     ],
 
@@ -9,11 +9,6 @@
       { 
         "src": "/(.*)",
         "dest": "/" }
-    ],
-
-    "env": {
-      "MONGO_URI": "mongodb+srv://lamanafei:AkaiSera@cluster0.upv53lm.mongodb.net/?retryWrites=true&w=majority",
-      "JWT_SECRET": "1598"
-    }
+    ]
   }
   
