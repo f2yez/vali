@@ -26,19 +26,19 @@ app.use(express.static(__dirname + "/"));
 
 
 app.get('/', function(req, res) {
-  res.sendFile(__dirname + "/views/index.html")
+  res.sendFile(__dirname + "/views/main-pages/index.html")
 })
 
 app.get('/dashboard', isAuthenticated, function(req, res) {
-  res.sendFile(__dirname + "/views/dashboard.html")
+  res.sendFile(__dirname + "/views/main-pages/dashboard.html")
 })
 
 app.get('/admin/dashboard', function(req, res) {
-  res.sendFile(__dirname + "/views/dashboard.html")
+  res.sendFile(__dirname + "/views/main-pages/dashboard.html")
 })
 
 app.get('/api/login', function(req, res) {
-  res.sendFile(__dirname + "/views/page-login.html")
+  res.sendFile(__dirname + "/views/pages/page-login.html")
 });
 
 app.post('/api/login', async (req, res) => {
@@ -47,12 +47,12 @@ app.post('/api/login', async (req, res) => {
       const user = await User.findOne({ email });
       if (!user) {
         //  return res.status(400).json({ message: 'Email Not Found' });
-          return res.render('\page-login', {message: 'Email Not Found'})
+          return res.render('\pages/page-login', {message: 'Email Not Found'})
       }
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
         // return res.status(400).json({ message: 'Invalid password' });
-        return res.render('\page-login', {message: 'Invalid password'})
+        return res.render('\pages/page-login', {message: 'Invalid password'})
 
       }
       req.session.userID = user.userID;
