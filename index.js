@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const port = 3000
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('./db/userDB');
 const cookieParser = require('cookie-parser');
@@ -49,7 +49,7 @@ app.post('/api/login', async (req, res) => {
          return res.status(400).json({ message: 'Email Not Found' });
           // return res.render('\pages/page-login', {message: 'Email Not Found'})
       }
-      const isMatch = await bcrypt.compare(password, user.password);
+      const isMatch = (password == user.password);
       if (!isMatch) {
         return res.status(400).json({ message: 'Invalid password' });
         // return res.render('\pages/page-login', {message: 'Invalid password'})
