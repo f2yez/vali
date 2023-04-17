@@ -46,13 +46,13 @@ app.post('/api/login', async (req, res) => {
     try {
       const user = await User.findOne({ email });
       if (!user) {
-        //  return res.status(400).json({ message: 'Email Not Found' });
-          return res.render('\pages/page-login', {message: 'Email Not Found'})
+         return res.status(400).json({ message: 'Email Not Found' });
+          // return res.render('\pages/page-login', {message: 'Email Not Found'})
       }
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        // return res.status(400).json({ message: 'Invalid password' });
-        return res.render('\pages/page-login', {message: 'Invalid password'})
+        return res.status(400).json({ message: 'Invalid password' });
+        // return res.render('\pages/page-login', {message: 'Invalid password'})
 
       }
       req.session.userID = user.userID;
@@ -61,8 +61,8 @@ app.post('/api/login', async (req, res) => {
         return res.render('\admin/dashboard')
       }
       else {
-      // return res.json({ message: 'sign in successfully' })
-      return res.render('\dashboard')
+      return res.json({ message: 'sign in successfully' })
+      // return res.render('\dashboard')
     }
   } 
     catch (error) {
