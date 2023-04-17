@@ -1,15 +1,19 @@
 {
-    "version": 2,
     "builds": [
-     {
-         "src": "./index.js",
-         "use": "@vercel/node"
-     }
+      {
+         "src": "index.js",
+         "use": "@vercel/node" }
     ],
+
     "routes": [
-     {
-         "src": "/(.*)",
-         "dest": "/"
-     }
-    ]
- }
+      { 
+        "src": "/(.*)",
+        "dest": "/" }
+    ],
+
+    "env": {
+      "MONGO_URI": "mongodb+srv://lamanafei:AkaiSera@cluster0.upv53lm.mongodb.net/?retryWrites=true&w=majority",
+      "JWT_SECRET": "1598"
+    }
+  }
+  
